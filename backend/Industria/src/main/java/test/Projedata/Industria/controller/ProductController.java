@@ -50,6 +50,18 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) {
+        Product product = productService.getProductById(id);
+        ProductResponseDto productResponseDto = mapper.map(product, ProductResponseDto.class);
+        return ResponseEntity.ok(productResponseDto);
+
+    }
+
+
+
+
+
     @PutMapping("/edit/{id}")
     public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable("id") Long id, @RequestBody @Valid ProductUpdateRequestDto productRequestDto){
         Product  product = mapper.map(productRequestDto, Product.class);
@@ -58,6 +70,7 @@ public class ProductController {
         return ResponseEntity.ok(productResponseDto);
 
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id){

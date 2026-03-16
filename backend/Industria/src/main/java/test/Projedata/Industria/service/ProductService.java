@@ -65,4 +65,13 @@ public class ProductService {
 
 
     }
+
+    public Product getProductById(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if(productOptional.isEmpty())
+            throw new ProductNotFoundException();
+            Product product = productOptional.get();
+            return product;
+
+    }
 }
