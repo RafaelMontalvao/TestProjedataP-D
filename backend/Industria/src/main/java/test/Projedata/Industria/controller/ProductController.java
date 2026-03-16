@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import test.Projedata.Industria.dto.request.ProductRequestDto;
+import test.Projedata.Industria.dto.request.ProductUpdateRequestDto;
 import test.Projedata.Industria.dto.response.ProductResponseDto;
 import test.Projedata.Industria.model.Product;
 import test.Projedata.Industria.service.ProductService;
@@ -48,5 +49,16 @@ public class ProductController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable("id") Long id, @RequestBody @Valid ProductUpdateRequestDto productRequestDto){
+        Product  product = mapper.map(productRequestDto, Product.class);
+        product = productService.updateProduct(id,productRequestDto);
+        ProductResponseDto productResponseDto = mapper.map(product, ProductResponseDto.class);
+        return ResponseEntity.ok(productResponseDto);
+
+    }
+
+
 
 }

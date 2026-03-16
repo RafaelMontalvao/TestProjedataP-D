@@ -1,12 +1,16 @@
 package test.Projedata.Industria.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import test.Projedata.Industria.dto.request.ProductUpdateRequestDto;
 import test.Projedata.Industria.exception.ProductAlredyExistException;
+import test.Projedata.Industria.exception.ProductNotFoundException;
 import test.Projedata.Industria.model.Product;
 import test.Projedata.Industria.repositories.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,4 +34,23 @@ public class ProductService {
     }
 
 
+    public Product updateProduct( Long  id , ProductUpdateRequestDto productRequestDto) {
+
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isEmpty())
+            throw new ProductNotFoundException();
+        Product productBd =  product.get();
+
+        if(productRequestDto.getCode() != null && !productRequestDto.getCode().isBlank()) {
+            productBd.setCode(productRequestDto.getCode());
+        }
+        if(productRequestDto.getName() != null && !productRequestDto.getName().isBlank()) {
+            productBd.setName(productRequestDto.getName());
+        }
+        if (productRequestDto.getPrice() != null ){
+            productBd.setPrice(productRequestDto.getPrice());
+        }
+        return productRepository.save(productBd);
+
+    }
 }
