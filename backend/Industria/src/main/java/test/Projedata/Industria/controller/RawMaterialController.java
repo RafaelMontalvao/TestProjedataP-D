@@ -61,4 +61,9 @@ public class RawMaterialController {
     }
 
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import test.Projedata.Industria.dto.request.RawMaterialUpdateRequestDto;
 import test.Projedata.Industria.exception.MaterialAlredyExistsException;
 import test.Projedata.Industria.exception.MaterialNotFoundException;
+import test.Projedata.Industria.exception.ProductNotFoundException;
 import test.Projedata.Industria.model.RawMaterial;
 import test.Projedata.Industria.repositories.RawMaterialRepository;
 
@@ -53,6 +54,15 @@ public class RawMaterialService {
 
         RawMaterial rawMaterial = rawMaterialOptional.get();
         return rawMaterial;
+
+    }
+
+    public void delete (Long id){
+        boolean existsMaterial = repo.existsById(id);
+        if(!existsMaterial)
+            throw new ProductNotFoundException();
+        repo.deleteById(id);
+
 
     }
 
