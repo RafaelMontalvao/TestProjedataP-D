@@ -15,10 +15,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ProductRequestDto {
 
-    @NotEmpty(message = "Campo obrigatório")
+    @NotBlank(message = "Campo obrigatório")
     private String name;
 
-    @NotEmpty(message = "Campo obrigatório")
+    @NotBlank(message = "Campo obrigatório")
     private String code;
 
     @NotNull(message = "Campo Obrigatório")

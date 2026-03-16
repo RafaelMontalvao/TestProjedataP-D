@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import test.Projedata.Industria.dto.request.RawMaterialRequestDto;
 import test.Projedata.Industria.dto.response.RawMaterialResponseDto;
+import test.Projedata.Industria.dto.request.RawMaterialUpdateRequestDto;
 import test.Projedata.Industria.model.RawMaterial;
 import test.Projedata.Industria.service.RawMaterialService;
 
@@ -37,5 +38,13 @@ public class RawMaterialController {
 
     }
 
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<RawMaterialResponseDto> updateRawMaterial(@PathVariable Long id, @RequestBody @Valid RawMaterialUpdateRequestDto request) {
+        RawMaterial  material = mapper.map(request, RawMaterial.class);
+        material = service.updateRawMaterial(id, request);
+        RawMaterialResponseDto responseDto = mapper.map(material, RawMaterialResponseDto.class);
+        return ResponseEntity.ok(responseDto);
+    }
 
 }
