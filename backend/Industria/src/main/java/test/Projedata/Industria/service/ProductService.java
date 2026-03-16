@@ -53,4 +53,16 @@ public class ProductService {
         return productRepository.save(productBd);
 
     }
+
+
+    public void delete (Long id){
+        boolean existsProduct = productRepository.existsById(id);
+
+        if(!existsProduct)
+            throw new ProductNotFoundException();
+
+        productRepository.deleteById(id);
+
+
+    }
 }
