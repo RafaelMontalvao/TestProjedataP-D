@@ -3,6 +3,7 @@ package test.Projedata.Industria.dto.response;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 
 
-        private Integer id;
+        private Long id;
 
         private String name;
 
@@ -20,5 +21,5 @@ import java.util.List;
 
         private BigDecimal price;
 
-        private List<ProductMaterialResponseDto> materials;
+        private List<ProductMaterialResponseDto> materials = new ArrayList<>();
 }

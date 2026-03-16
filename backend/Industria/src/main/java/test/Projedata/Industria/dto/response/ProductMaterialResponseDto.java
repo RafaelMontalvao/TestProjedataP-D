@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 public class ProductMaterialResponseDto {
 
 
-    private Integer id;
-    private Integer rawMaterialId;
+    private Long id;
+    private Long rawMaterialId;
     private String rawMaterialName;
     private BigDecimal quantityNeeded;
 

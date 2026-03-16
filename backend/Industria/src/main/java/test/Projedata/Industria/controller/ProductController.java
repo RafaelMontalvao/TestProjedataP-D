@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import test.Projedata.Industria.dto.request.ProductRequestDto;
 import test.Projedata.Industria.dto.response.ProductResponseDto;
@@ -15,6 +12,7 @@ import test.Projedata.Industria.model.Product;
 import test.Projedata.Industria.service.ProductService;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("products")
@@ -27,7 +25,7 @@ public class ProductController {
 
 
 
-
+    @PostMapping("/create")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody @Valid ProductRequestDto productRequestDto){
         Product product = mapper.map(productRequestDto, Product.class);
         product = productService.create(product);
@@ -37,6 +35,18 @@ public class ProductController {
                 .buildAndExpand(product.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(productResponseDto);
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
+
+        List<ProductResponseDto> response = productService
+                .getAllProducts()
+                .stream()
+                .map(product -> mapper.map(product, ProductResponseDto.class))
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
 }
