@@ -13,6 +13,7 @@ import test.Projedata.Industria.model.RawMaterial;
 import test.Projedata.Industria.service.RawMaterialService;
 
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
@@ -47,4 +48,8 @@ public class RawMaterialController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @GetMapping("/get")
+    public ResponseEntity<List<RawMaterial>> getAllMaterials() {
+        return ResponseEntity.ok(service.getAllMaterials());
+    }
 }

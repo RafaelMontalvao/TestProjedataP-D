@@ -9,6 +9,7 @@ import test.Projedata.Industria.exception.MaterialNotFoundException;
 import test.Projedata.Industria.model.RawMaterial;
 import test.Projedata.Industria.repositories.RawMaterialRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,11 +38,11 @@ public class RawMaterialService {
         if(request.getStockQuantity() != null ) {
             rawMaterial.setStockQuantity(request.getStockQuantity());
         }
-
         return repo.save(rawMaterial);
+    }
 
-
-
+    public List<RawMaterial> getAllMaterials() {
+        return repo.findAll();
     }
 
 
