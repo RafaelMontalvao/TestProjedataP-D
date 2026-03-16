@@ -45,6 +45,15 @@ public class RawMaterialService {
         return repo.findAll();
     }
 
+    public RawMaterial getMaterialById(Long id) {
+        Optional<RawMaterial> rawMaterialOptional = repo.findById(id);
 
+        if(rawMaterialOptional.isEmpty())
+            throw new MaterialNotFoundException();
+
+        RawMaterial rawMaterial = rawMaterialOptional.get();
+        return rawMaterial;
+
+    }
 
 }

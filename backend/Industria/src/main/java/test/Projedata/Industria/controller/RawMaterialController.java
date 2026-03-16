@@ -52,4 +52,13 @@ public class RawMaterialController {
     public ResponseEntity<List<RawMaterial>> getAllMaterials() {
         return ResponseEntity.ok(service.getAllMaterials());
     }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<RawMaterialResponseDto> getMaterialById(@PathVariable Long id) {
+        RawMaterial material = service.getMaterialById(id);
+        RawMaterialResponseDto responseDto = mapper.map(material, RawMaterialResponseDto.class);
+        return ResponseEntity.ok(responseDto);
+    }
+
+
 }
