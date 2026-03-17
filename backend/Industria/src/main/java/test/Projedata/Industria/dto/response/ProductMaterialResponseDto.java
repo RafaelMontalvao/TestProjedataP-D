@@ -9,8 +9,10 @@ public class ProductMaterialResponseDto {
 
 
     private Long id;
+    private Long productId;
     private Long rawMaterialId;
     private String rawMaterialName;
     private BigDecimal quantityNeeded;
+
 
 }

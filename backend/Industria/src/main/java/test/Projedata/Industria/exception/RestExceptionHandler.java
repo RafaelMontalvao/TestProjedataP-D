@@ -40,7 +40,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AssociationAlredyExistsException.class)
     public ResponseEntity<Object> handleAssociationNotFoundException(AssociationAlredyExistsException e) {
         var retorno = new ErroResponse("Association Aleready Exists!");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(retorno);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(retorno);
     }
 
 
@@ -66,20 +66,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MaterialAlredyExistsException.class)
     public ResponseEntity<Object> handleMaterialAlredyExistsException(MaterialAlredyExistsException e) {
         var retorno = new ErroResponse("Material alredy exists!");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(retorno);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(retorno);
     }
 
     @ExceptionHandler(RegistroComNomeExistenteException.class)
     public ResponseEntity<Object> RegistroComNomeExistenteExceptionException(RegistroComNomeExistenteException e) {
         var retorno = new ErroResponse("Product already exists!");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(retorno);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(retorno);
     }
 
-//    @ExceptionHandler(LivroIndisponivelException.class)
-//    public ResponseEntity<Object> handleLivroIndisponivelException(LivroIndisponivelException e) {
-//        var retorno = new ErroResponse("Livro não disponível para empréstimo!");
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retorno);
-//    }
 
 
     @ExceptionHandler(ConstraintViolationException.class)
