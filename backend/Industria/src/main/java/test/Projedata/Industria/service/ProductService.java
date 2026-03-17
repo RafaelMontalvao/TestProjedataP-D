@@ -124,7 +124,7 @@ public class ProductService {
         if (totalNeeded.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
 
         // Preço / Total de Materiais = Quanto cada unidade de material rende
-        return p.getPrice().divide(totalNeeded, 4, RoundingMode.HALF_UP);
+        return p.getPrice().divide(totalNeeded, 8, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateMaxQuantity(Product product, Map<Long, BigDecimal> stock) {

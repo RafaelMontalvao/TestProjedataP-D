@@ -1,53 +1,68 @@
--- 1. Limpeza
-DELETE FROM product_material;
-DELETE FROM product;
-DELETE FROM raw_material;
 
--- 2. Matérias-Primas (Raw Materials)
-INSERT INTO raw_material (id, name, stock_quantity) VALUES (1, 'Plastico', 1000.00);
-INSERT INTO raw_material (id, name, stock_quantity) VALUES (2, 'Algodao', 800.00);
-INSERT INTO raw_material (id, name, stock_quantity) VALUES (3, 'Borracha', 1200.00);
-INSERT INTO raw_material (id, name, stock_quantity) VALUES (4, 'Couro Sintetico', 300.00);
-INSERT INTO raw_material (id, name, stock_quantity) VALUES (5, 'Fibra de Carbono', 50.00);
-INSERT INTO raw_material (id, name, stock_quantity) VALUES (6, 'Metal Leve', 200.00);
 
--- 3. Produtos (Products)
-INSERT INTO product (id, name, code, price) VALUES (1, 'Tenis de Corrida Luxo', 'RUN-99', 500.00);
-INSERT INTO product (id, name, code, price) VALUES (2, 'Bola de Futebol Profissional', 'BALL-01', 150.00);
-INSERT INTO product (id, name, code, price) VALUES (3, 'Chuteira de Carbono', 'BOOT-CB', 800.00);
-INSERT INTO product (id, name, code, price) VALUES (4, 'Camiseta Dry-Fit', 'TSHIRT-01', 80.00);
-INSERT INTO product (id, name, code, price) VALUES (5, 'Caneleira Basica', 'PROT-01', 30.00);
-INSERT INTO product (id, name, code, price) VALUES (6, 'Garrafa Termica', 'BOTT-01', 45.00);
-INSERT INTO product (id, name, code, price) VALUES (7, 'Mochila Esportiva', 'BACK-01', 220.00);
-INSERT INTO product (id, name, code, price) VALUES (8, 'Raquete de Tenis Leve', 'RACK-01', 600.00);
 
--- 4. Associações (ProductMaterial) - Agora todos com 'required_quantity'
--- Chuteira
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (3, 5, 5.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (3, 4, 2.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (3, 3, 1.00);
+INSERT INTO raw_material (name, stock_quantity) VALUES ('Plastico', 1000.00);
+INSERT INTO raw_material (name, stock_quantity) VALUES ('Algodao', 800.00);
+INSERT INTO raw_material (name, stock_quantity) VALUES ('Borracha', 1200.00);
+INSERT INTO raw_material (name, stock_quantity) VALUES ('Couro Sintetico', 300.00);
+INSERT INTO raw_material (name, stock_quantity) VALUES ('Fibra de Carbono', 50.00);
+INSERT INTO raw_material (name, stock_quantity) VALUES ('Metal Leve', 200.00);
 
--- Raquete
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (8, 5, 2.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (8, 6, 3.00);
 
--- Tenis de Corrida
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (1, 3, 5.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (1, 2, 2.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (1, 1, 1.00);
+INSERT INTO product (name, code, price) VALUES ('Tenis de Corrida Luxo', 'RUN-99', 500.00);
+INSERT INTO product (name, code, price) VALUES ('Bola de Futebol Profissional', 'BALL-01', 150.00);
+INSERT INTO product (name, code, price) VALUES ('Chuteira de Carbono', 'BOOT-CB', 800.00);
+INSERT INTO product (name, code, price) VALUES ('Camiseta Dry-Fit', 'TSHIRT-01', 80.00);
+INSERT INTO product (name, code, price) VALUES ('Caneleira Basica', 'PROT-01', 30.00);
+INSERT INTO product (name, code, price) VALUES ('Garrafa Termica', 'BOTT-01', 45.00);
+INSERT INTO product (name, code, price) VALUES ('Mochila Esportiva', 'BACK-01', 220.00);
+INSERT INTO product (name, code, price) VALUES ('Raquete de Tenis Leve', 'RACK-01', 600.00);
 
--- Bola
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (2, 4, 4.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (2, 2, 3.00);
+-- 4. Associações (ProductMaterial) usando Subqueries
+-- Isso garante que funcione mesmo sem sabermos o ID gerado pelo banco
 
--- Camiseta
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (4, 2, 0.50);
+-- Chuteira de Carbono
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BOOT-CB'), (SELECT id FROM raw_material WHERE name = 'Fibra de Carbono'), 5.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BOOT-CB'), (SELECT id FROM raw_material WHERE name = 'Couro Sintetico'), 2.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BOOT-CB'), (SELECT id FROM raw_material WHERE name = 'Borracha'), 1.00);
 
--- Garrafa Termica (Corrigido aqui!)
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (6, 1, 2.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (6, 6, 1.00);
+-- Raquete de Tenis Leve
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'RACK-01'), (SELECT id FROM raw_material WHERE name = 'Fibra de Carbono'), 2.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'RACK-01'), (SELECT id FROM raw_material WHERE name = 'Metal Leve'), 3.00);
 
--- Mochila
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (7, 4, 3.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (7, 1, 2.00);
-INSERT INTO product_material (product_id, raw_material_id, required_quantity) VALUES (7, 2, 5.00);
+-- Tenis de Corrida Luxo
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'RUN-99'), (SELECT id FROM raw_material WHERE name = 'Borracha'), 5.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'RUN-99'), (SELECT id FROM raw_material WHERE name = 'Algodao'), 2.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'RUN-99'), (SELECT id FROM raw_material WHERE name = 'Plastico'), 1.00);
+
+-- Bola de Futebol
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BALL-01'), (SELECT id FROM raw_material WHERE name = 'Couro Sintetico'), 4.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BALL-01'), (SELECT id FROM raw_material WHERE name = 'Algodao'), 3.00);
+
+-- Camiseta Dry-Fit
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'TSHIRT-01'), (SELECT id FROM raw_material WHERE name = 'Algodao'), 0.50);
+
+-- Garrafa Termica
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BOTT-01'), (SELECT id FROM raw_material WHERE name = 'Plastico'), 2.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BOTT-01'), (SELECT id FROM raw_material WHERE name = 'Metal Leve'), 1.00);
+
+-- Mochila Esportiva
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BACK-01'), (SELECT id FROM raw_material WHERE name = 'Couro Sintetico'), 3.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BACK-01'), (SELECT id FROM raw_material WHERE name = 'Plastico'), 2.00);
+INSERT INTO product_material (product_id, raw_material_id, required_quantity)
+VALUES ((SELECT id FROM product WHERE code = 'BACK-01'), (SELECT id FROM raw_material WHERE name = 'Algodao'), 5.00);

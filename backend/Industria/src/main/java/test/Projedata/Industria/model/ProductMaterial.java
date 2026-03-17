@@ -1,7 +1,9 @@
 package test.Projedata.Industria.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -10,6 +12,8 @@ import java.math.BigDecimal;
     @Data
     @Entity
     @Table(name="product_material")
+    @AllArgsConstructor
+    @NoArgsConstructor
     public class ProductMaterial {
 
         @Id
@@ -26,4 +30,12 @@ import java.math.BigDecimal;
 
         private BigDecimal requiredQuantity;
 
+
+
+
+        public ProductMaterial(Product product, RawMaterial rawMaterial, BigDecimal requiredQuantity) {
+            this.product = product;
+            this.rawMaterial = rawMaterial;
+            this.requiredQuantity = requiredQuantity;
+        }
     }
