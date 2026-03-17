@@ -76,4 +76,11 @@ public class ProductMaterialService {
         return  ProductMaterialRepo.save(productMaterialBd);
     }
 
+    public void delete(Long id){
+        boolean existAssociation = ProductMaterialRepo.existsById(id);
+        if(!existAssociation)
+            throw new AssociationNotFoundException();
+        ProductMaterialRepo.deleteById(id);
+    }
+
 }

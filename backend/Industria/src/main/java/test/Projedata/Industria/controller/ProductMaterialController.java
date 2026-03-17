@@ -27,7 +27,6 @@ public class ProductMaterialController {
 
 
 
-
     @PostMapping("/{productId}/materials")
     public ResponseEntity<List<ProductMaterialResponseDto>> associateMaterials(
             @PathVariable Long productId,
@@ -48,6 +47,18 @@ public class ProductMaterialController {
 
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/{productId}/getMaterials")
+    public ResponseEntity<List<ProductMaterialResponseDto>> getMaterials(@PathVariable Long productId){
+
+
+    }
 
 
 
