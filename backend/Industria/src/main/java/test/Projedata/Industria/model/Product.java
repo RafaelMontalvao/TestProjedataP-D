@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,6 +23,6 @@ public class Product {
     private BigDecimal price;
 
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductMaterial > material ;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<ProductMaterial> material = new ArrayList<>();
 }
