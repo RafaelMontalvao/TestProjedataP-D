@@ -24,7 +24,7 @@ public class Application {
         mapper.typeMap(ProductMaterial.class, ProductMaterialResponseDto.class)
                 .addMapping(src -> src.getRawMaterial().getId(), ProductMaterialResponseDto::setRawMaterialId)
                 .addMapping(src -> src.getRawMaterial().getName(), ProductMaterialResponseDto::setRawMaterialName)
-                .addMapping(ProductMaterial::getRequeiredQuantity, ProductMaterialResponseDto::setQuantityNeeded)
+                .addMapping(ProductMaterial::getRequiredQuantity, ProductMaterialResponseDto::setQuantityNeeded)
                 .addMapping(src -> src.getProduct().getId(), ProductMaterialResponseDto::setProductId);
 
         // Mapeia Product → ProductResponseDto e já transforma a lista

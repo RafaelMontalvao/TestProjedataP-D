@@ -3,6 +3,7 @@ package test.Projedata.Industria.service;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import test.Projedata.Industria.dto.request.ProductMaterialRequestDto;
 import test.Projedata.Industria.dto.response.ProductMaterialResponseDto;
 import test.Projedata.Industria.exception.AssociationAlredyExistsException;
@@ -25,62 +26,59 @@ import java.util.Optional;
 public class ProductMaterialService {
 
     private final ProductRepository productRepo;
-    private final ProductMaterialRepository ProductMaterialRepo;
+    private final ProductMaterialRepository productMaterialRepo;
     private final RawMaterialRepository materialRepo;
     private final ModelMapper mapper;
 
+    @Transactional
     public List<ProductMaterialResponseDto> associateMaterials(Long productId, List<ProductMaterialRequestDto> materialRequests) {
-        Optional<Product> productOpt = productRepo.findById(productId);
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException());
 
-        if (productOpt.isEmpty())
-            throw new ProductNotFoundException();
 
-        Product product = productOpt.get();
+        productMaterialRepo.deleteByProductId(productId);
 
         List<ProductMaterialResponseDto> responseList = new ArrayList<>();
 
         for (ProductMaterialRequestDto req : materialRequests) {
-            Optional<RawMaterial> materialOpt = materialRepo.findById(req.getRawMaterialId());
-            if (materialOpt.isEmpty()) throw new MaterialNotFoundException();
+            RawMaterial material = materialRepo.findById(req.getRawMaterialId())
+                    .orElseThrow(() -> new MaterialNotFoundException());
 
-            if (ProductMaterialRepo.existsByProductIdAndRawMaterialId(productId, req.getRawMaterialId()))
-                throw new AssociationAlredyExistsException();
 
-                ProductMaterial association = new ProductMaterial();
-                association.setProduct(product);
-                association.setRawMaterial(materialOpt.get());
-                association.setRequeiredQuantity(req.getQuantityNeeded());
+            ProductMaterial association = new ProductMaterial();
+            association.setProduct(product);
+            association.setRawMaterial(material);
+            association.setRequiredQuantity(req.getQuantityNeeded());
 
-            ProductMaterialRepo.save(association);
+            productMaterialRepo.save(association);
 
-            ProductMaterialResponseDto respDto = mapper.map(association, ProductMaterialResponseDto.class);
-            responseList.add(respDto);
-
+            responseList.add(mapper.map(association, ProductMaterialResponseDto.class));
         }
-            return responseList;
+        return responseList;
     }
 
+    @Transactional
     public ProductMaterial updateMaterial(Long id, ProductMaterialRequestDto productMaterialRequestDto){
-        Optional<ProductMaterial> material = ProductMaterialRepo.findById(id);
+        Optional<ProductMaterial> material = productMaterialRepo.findById(id);
 
         if(material.isEmpty())
             throw new AssociationNotFoundException();
         ProductMaterial productMaterialBd = material.get();
 
         if(productMaterialRequestDto.getQuantityNeeded()!= null){
-            productMaterialBd.setRequeiredQuantity(productMaterialRequestDto.getQuantityNeeded());
+            productMaterialBd.setRequiredQuantity(productMaterialRequestDto.getQuantityNeeded());
         }
-        if(productMaterialRequestDto.getRawMaterialId() != null){
-            productMaterialBd.setId(productMaterialRequestDto.getRawMaterialId());
-        }
-        return  ProductMaterialRepo.save(productMaterialBd);
+
+        return  productMaterialRepo.save(productMaterialBd);
     }
 
+
+    @Transactional
     public void delete(Long id){
-        boolean existAssociation = ProductMaterialRepo.existsById(id);
+        boolean existAssociation = productMaterialRepo.existsById(id);
         if(!existAssociation)
             throw new AssociationNotFoundException();
-        ProductMaterialRepo.deleteById(id);
+        productMaterialRepo.deleteById(id);
     }
 
 }

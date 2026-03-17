@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import test.Projedata.Industria.dto.request.ProductRequestDto;
 import test.Projedata.Industria.dto.request.ProductUpdateRequestDto;
+import test.Projedata.Industria.dto.response.ProductAvailabilityDto;
 import test.Projedata.Industria.dto.response.ProductResponseDto;
 import test.Projedata.Industria.model.Product;
 import test.Projedata.Industria.service.ProductService;
@@ -68,6 +69,17 @@ public class ProductController {
         return ResponseEntity.ok(productResponseDto);
 
     }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<ProductAvailabilityDto>> getAvailableProducts () {
+        List<ProductAvailabilityDto> avaiable = productService.getProductsProducible();
+        return ResponseEntity.ok(avaiable);
+    }
+
+
+
+
+
 
 
     @DeleteMapping("/delete/{id}")

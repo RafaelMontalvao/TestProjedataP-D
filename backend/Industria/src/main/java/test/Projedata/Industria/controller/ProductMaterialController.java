@@ -7,7 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import test.Projedata.Industria.dto.request.ProductMaterialListRequestDto;
+
 import test.Projedata.Industria.dto.request.ProductMaterialRequestDto;
 import test.Projedata.Industria.dto.response.ProductMaterialResponseDto;
 import test.Projedata.Industria.model.ProductMaterial;
@@ -54,11 +54,13 @@ public class ProductMaterialController {
     }
 
 
-    @GetMapping("/{productId}/getMaterials")
-    public ResponseEntity<List<ProductMaterialResponseDto>> getMaterials(@PathVariable Long productId){
 
 
-    }
+
+
+
+
+
 
 
 

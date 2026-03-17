@@ -17,13 +17,13 @@ import java.math.BigDecimal;
         private Long id;
 
         @ManyToOne
-        @JoinColumn(name="product_id")
+        @JoinColumn(name = "product_id")
         private Product product;
 
         @ManyToOne
         @JoinColumn(name="raw_material_id")
         private RawMaterial rawMaterial;
 
-        private BigDecimal requeiredQuantity;
+        private BigDecimal requiredQuantity;
 
     }
