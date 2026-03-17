@@ -3,11 +3,13 @@
 <template>
   <v-toolbar 
       v-if="showToolbar" 
-      color="white" 
+      color="blue-grey-lighten-2" 
+      density="compact"
       elevation="1"
-      class="mb-4"
+      class="mb-4 "
     >
-      <v-toolbar-title class="text-h6 font-weight-bold color-primary">
+      <v-toolbar-title>
+        <v-icon size="small" icon="mdi-arrow-left" class="mr-2" v-tooltip:start="'Voltar'" @click="goBack"></v-icon>
         {{ title }}
       </v-toolbar-title>
       
@@ -15,16 +17,35 @@
       
       <slot name="actions"></slot>
     </v-toolbar>
- <v-container fluid class="pa-4"  style="height:100%; overflow-y:auto;">
+ <v-container fluid class="pa-6"  style="height:100%; overflow-y:auto;">
 
 
-    <slot></slot>
+    <slot class="flex-grow-1"></slot>
+
+
+    <v-footer v-if="$slots.footer" app color="white"  class="pa-4">
+       <slot name="footer"></slot>
+    </v-footer>
    
   </v-container>
 
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goBack = () => {
+  // Verifica se existe histórico no navegador
+  if (window.history.state.back) {
+    router.back()
+  } else {
+    console.log("click")
+    // Se não tiver para onde voltar, manda para a Dashboard
+    router.push({ name: 'dashboard' }) 
+  }
+}
 defineProps({
   // Título que será exibido
   title: {

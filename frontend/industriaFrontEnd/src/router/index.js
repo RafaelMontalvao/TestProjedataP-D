@@ -1,3 +1,6 @@
+import HomePage from '@/pages/HomePage.vue'
+import FormMaterial from '@/pages/materials/FormMaterial.vue'
+import Materials from '@/pages/materials/Materials.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -9,9 +12,20 @@ const router = createRouter({
       children:[
         {
           path:'',
-          name: 'home',
-          component: ()=> import('@/pages/HomePage.vue')
+          name: 'dashboard',
+          component: HomePage,
         },
+         {
+          path: 'materials',
+          name: 'materials',
+          component: Materials,
+        },
+          {
+          path: 'form_material/:id',
+          name: 'formmaterials',
+          component: FormMaterial,
+        },
+
 
        
       ]
