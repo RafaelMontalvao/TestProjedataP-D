@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import test.Projedata.Industria.dto.request.ProductMaterialRequestDto;
 import test.Projedata.Industria.dto.response.ProductMaterialResponseDto;
 import test.Projedata.Industria.exception.AssociationAlredyExistsException;
+import test.Projedata.Industria.exception.AssociationNotFoundException;
 import test.Projedata.Industria.exception.MaterialNotFoundException;
 import test.Projedata.Industria.exception.ProductNotFoundException;
 import test.Projedata.Industria.model.Product;
@@ -24,7 +25,7 @@ import java.util.Optional;
 public class ProductMaterialService {
 
     private final ProductRepository productRepo;
-    private final ProductMaterialRepository associateMaterials;
+    private final ProductMaterialRepository ProductMaterialRepo;
     private final RawMaterialRepository materialRepo;
     private final ModelMapper mapper;
 
@@ -42,7 +43,7 @@ public class ProductMaterialService {
             Optional<RawMaterial> materialOpt = materialRepo.findById(req.getRawMaterialId());
             if (materialOpt.isEmpty()) throw new MaterialNotFoundException();
 
-            if (associateMaterials.existsByProductIdAndRawMaterialId(productId, req.getRawMaterialId()))
+            if (ProductMaterialRepo.existsByProductIdAndRawMaterialId(productId, req.getRawMaterialId()))
                 throw new AssociationAlredyExistsException();
 
                 ProductMaterial association = new ProductMaterial();
@@ -50,7 +51,7 @@ public class ProductMaterialService {
                 association.setRawMaterial(materialOpt.get());
                 association.setRequeiredQuantity(req.getQuantityNeeded());
 
-                associateMaterials.save(association);
+            ProductMaterialRepo.save(association);
 
             ProductMaterialResponseDto respDto = mapper.map(association, ProductMaterialResponseDto.class);
             responseList.add(respDto);
@@ -59,6 +60,20 @@ public class ProductMaterialService {
             return responseList;
     }
 
+    public ProductMaterial updateMaterial(Long id, ProductMaterialRequestDto productMaterialRequestDto){
+        Optional<ProductMaterial> material = ProductMaterialRepo.findById(id);
 
+        if(material.isEmpty())
+            throw new AssociationNotFoundException();
+        ProductMaterial productMaterialBd = material.get();
+
+        if(productMaterialRequestDto.getQuantityNeeded()!= null){
+            productMaterialBd.setRequeiredQuantity(productMaterialRequestDto.getQuantityNeeded());
+        }
+        if(productMaterialRequestDto.getRawMaterialId() != null){
+            productMaterialBd.setId(productMaterialRequestDto.getRawMaterialId());
+        }
+        return  ProductMaterialRepo.save(productMaterialBd);
+    }
 
 }
