@@ -18,8 +18,8 @@
         </script>
 
     <template>
-        <v-footer  height="auto" >
-            <v-toolbar density="comfortable" width="100%"  class=" bg-transparent pr-0">
+        <v-footer density="compact" style="min-height: 48px !important; height: 48px !important;" class="bg-transparente"  >
+            <v-toolbar density="compact" width="100%"  class=" bg-transparent pr-0 pb-4">
             <v-btn color="error" variant="elevated" size="large" density="comfortable" rounded="xl"  v-if="showDelete"  @click="$emit('excluir')">Excluir</v-btn>
             <v-spacer></v-spacer>
             <v-btn color="grey" variant="elevated" size="large" density="comfortable"rounded="xl" @click="$emit('cancelar')">Cancelar</v-btn>

@@ -3,10 +3,10 @@
 <template>
   <v-toolbar 
       v-if="showToolbar" 
-      color="green-lighten-3" 
+      
       density="compact"
       elevation="1"
-      class="mb-4 "
+      class="mb-4 bg-transparent"
     >
       <v-toolbar-title>
         <v-icon size="small" icon="mdi-arrow-left" class="mr-2" v-tooltip:start="'Voltar'" @click="goBack"></v-icon>
@@ -23,7 +23,7 @@
     <slot class="flex-grow-1"></slot>
 
 
-    <v-footer v-if="$slots.footer" app color="white"  class="pa-4">
+    <v-footer v-if="$slots.footer" app color="white" style="position: absolute;" >
        <slot name="footer"></slot>
     </v-footer>
    

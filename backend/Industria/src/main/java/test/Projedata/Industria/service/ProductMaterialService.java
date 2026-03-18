@@ -81,4 +81,14 @@ public class ProductMaterialService {
         productMaterialRepo.deleteById(id);
     }
 
+
+    @Transactional
+    public void deleteByProduct(Long id){
+        boolean existProduct = productRepo.existsById(id);
+        if(!existProduct)
+            throw new ProductNotFoundException();
+
+        productMaterialRepo.deleteByProductId(id);
+    }
+
 }

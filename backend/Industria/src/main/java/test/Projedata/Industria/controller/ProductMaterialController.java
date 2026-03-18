@@ -53,6 +53,12 @@ public class ProductMaterialController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{productId}/delete")
+    public ResponseEntity deleteProductMaterial(@PathVariable("productId") Long productId){
+        service.deleteByProduct(productId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
 

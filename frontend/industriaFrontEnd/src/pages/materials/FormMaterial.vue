@@ -20,14 +20,17 @@
                 </v-col>
                 <v-col cols="12" sm="6">
 
-                    <v-number-input
+                    <v-text-field
                     label="Stock Quantity"
                     v-model="form.stockQuantity"
                     variant="outlined"
                     hide-details="auto"
-                    :min="0"
+                    type="number"
+                    :min="0.00"
+                    :precision="2"
+                    :step="0.01"
                     density="compact">
-                    </v-number-input>
+                    </v-text-field>
                 </v-col>
             </v-row>
         </v-form>
@@ -36,9 +39,9 @@
                 <FooterActions
                 class="w-100" 
                 :showDelete="materialId > 0"
-                @salvar="clickSave()"
+                @salvar="clickSave"
                 @cancelar="goBack"
-                @excluir="clickDelete()"
+                @excluir="clickDelete"
                 />
         </template>
         </container-default>
