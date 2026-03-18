@@ -43,6 +43,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(retorno);
     }
 
+    @ExceptionHandler(HasAssociationException.class)
+    public ResponseEntity<Object> handleHasAssociationException(HasAssociationException e) {
+        var retorno = new ErroResponse("Has Association !");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(retorno);
+    }
+
 
     @ExceptionHandler(AssociationNotFoundException.class)
     public ResponseEntity<Object> handleAssociationNotFoundException(AssociationNotFoundException e) {

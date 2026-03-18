@@ -4,10 +4,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import test.Projedata.Industria.dto.request.RawMaterialUpdateRequestDto;
-import test.Projedata.Industria.exception.MaterialAlredyExistsException;
-import test.Projedata.Industria.exception.MaterialNotFoundException;
-import test.Projedata.Industria.exception.ProductNotFoundException;
+import test.Projedata.Industria.exception.*;
 import test.Projedata.Industria.model.RawMaterial;
+import test.Projedata.Industria.repositories.ProductMaterialRepository;
 import test.Projedata.Industria.repositories.RawMaterialRepository;
 
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.Optional;
 public class RawMaterialService {
 
     private final RawMaterialRepository repo;
+    private final ProductMaterialRepository productRepository;
 
     public RawMaterial createRawMaterial(RawMaterial rawMaterial) {
         if (repo.existsByName(rawMaterial.getName())) {
@@ -59,8 +59,11 @@ public class RawMaterialService {
 
     public void delete (Long id){
         boolean existsMaterial = repo.existsById(id);
+        boolean existAssociation = productRepository.existsByRawMaterialId(id);
         if(!existsMaterial)
             throw new ProductNotFoundException();
+        if(existAssociation)
+            throw new HasAssociationException();
         repo.deleteById(id);
 
 

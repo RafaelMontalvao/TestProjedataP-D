@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import test.Projedata.Industria.component.ProductAvailabilityMapper;
 import test.Projedata.Industria.dto.request.ProductUpdateRequestDto;
 import test.Projedata.Industria.dto.response.ProductAvailabilityDto;
-import test.Projedata.Industria.exception.ProductAlredyExistException;
-import test.Projedata.Industria.exception.ProductNotFoundException;
+import test.Projedata.Industria.exception.*;
 import test.Projedata.Industria.model.Product;
 import test.Projedata.Industria.model.ProductMaterial;
 import test.Projedata.Industria.model.RawMaterial;
+import test.Projedata.Industria.repositories.ProductMaterialRepository;
 import test.Projedata.Industria.repositories.ProductRepository;
 import test.Projedata.Industria.repositories.RawMaterialRepository;
 
@@ -26,6 +26,7 @@ public class ProductService {
     private final RawMaterialRepository materialRepository;
 
     private final ProductAvailabilityMapper productAvailabilityMapper;
+    private final ProductMaterialRepository productMaterialRepository;
 
 
 
@@ -77,9 +78,12 @@ public class ProductService {
 
     public void delete (Long id){
         boolean existsProduct = productRepository.existsById(id);
+        boolean existsAssociation =  productMaterialRepository.existsByProductId(id);
 
         if(!existsProduct)
             throw new ProductNotFoundException();
+        if(existsAssociation)
+            throw new HasAssociationException();
 
         productRepository.deleteById(id);
 

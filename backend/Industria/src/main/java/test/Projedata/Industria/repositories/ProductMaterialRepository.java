@@ -18,7 +18,8 @@ public interface ProductMaterialRepository extends JpaRepository<ProductMaterial
     void deleteByProductId(@Param("productId") Long productId);
 
     List<ProductMaterial> findByProductId(Long productId);
-
+    boolean existsByProductId(Long productId);
+    boolean existsByRawMaterialId(Long rawMaterialId );
 }
 
 
