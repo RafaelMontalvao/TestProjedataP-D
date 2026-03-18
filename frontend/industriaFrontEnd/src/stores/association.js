@@ -45,6 +45,22 @@ export const useAssociationStore = defineStore('association',()=>{
             isLoading.value = false
         }
     }
+    const deleteAssociationbyId = async(id) =>{
+
+        isLoading.value = true
+        try{
+            await api.delete(`/product_material/${id}/delete`)
+        }
+        catch(err){
+            const errorMsg = err.response?.data?.message || 'Failed to delete'
+            notification.error(errorMsg)
+            console.error("Erro na deleção:", err)
+        }
+        finally{
+            isLoading.value = false
+        }
+    }
+
 
 
 
@@ -54,7 +70,8 @@ export const useAssociationStore = defineStore('association',()=>{
         isLoading,
         error,
         deleteAssociation,
-        associationProductMaterial
+        associationProductMaterial,
+        deleteAssociationbyId
     }
 
 })

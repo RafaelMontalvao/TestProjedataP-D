@@ -1,5 +1,9 @@
 <template>
-    <container-default :title="productId >0 ?'Edit Product' : 'New Product'" show-toolbar >
+
+
+
+    
+    <container-default   :title="productId >0 ?'Edit Product' : 'New Product'" show-toolbar >
       <v-form   ref="formProduct" validate-on="blur" @submit.prevent>
         <v-row class="pt-0">
           <v-col cols="12" sm="4" >
@@ -324,9 +328,9 @@ const goBack = () => {
   
   // Se após 100ms ele não saiu da página, algo bloqueou
   setTimeout(() => {
-    if (route.name === 'formmaterials') {
+    if (route.name === 'formProduct') {
       console.warn("router.back() falhou. Forçando push...");
-      router.push({ name: 'materials' });
+      router.push({ name: 'products' });
     }
   }, 100);
 }
@@ -365,7 +369,6 @@ async function clickSave(){
     throw new Error("Product Not Found")
   }
 
-  console.log('current productID', currentProductId)
   const savedProductMaterials = (materials || [] )
     .filter(item => item.rawMaterialId !== null)
     .map(item => ({
@@ -375,7 +378,7 @@ async function clickSave(){
     }));
 
     await storeAsccociation.associationProductMaterial(currentProductId,savedProductMaterials)
-
+    notification.success(productId.value > 0 ?  "Product Uptaded " : "Product Created")
     setTimeout(()=> {goBack()},1000)
   }catch (error) {
     // Tratamento de erro detalhado com a sua lógica de notificações
@@ -390,6 +393,29 @@ async function clickSave(){
   } finally {
     isLoading.value = false;
   }
+}
+
+async function clickDelete(){
+
+   const confirmed = await notification.confirm(
+            'Delete Material', 
+            `Are you sure you want to delete this prodocut: ${form.value.name}?`
+        )
+        if (confirmed) {
+                console.log('productid',productId.value)
+                try {
+                isLoading.value = true
+                await storeAsccociation.deleteAssociationbyId(productId.value)
+
+                await store.deleteProduct(productId.value)
+                notification.success('Material Deleted')
+                goBack()
+                } catch (err) {
+                notification.error('Failed to delete')
+                } finally {
+                isLoading.value = false
+                }
+            }
 }
 
 

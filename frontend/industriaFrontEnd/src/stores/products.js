@@ -51,6 +51,16 @@ export const useProductsStore = defineStore('products', () => {
     }
   };
 
+    const getBestProducible = async () => {
+    isLoading.value = true
+    try {
+      const { data } = await api.get('/available')
+      products.value = data
+    } finally {
+      isLoading.value = false
+    }
+  };
+
    const getProductById = async (id) => {
       const { data } = await api.get(`/products/get/${id}`)
       return data
