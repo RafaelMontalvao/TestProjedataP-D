@@ -10,8 +10,8 @@ import router from '@/router';
 
   const headers = [
     { title: 'Material Name', value: 'name' },
-    { title: 'Stock Quantity', value: 'stockQuantity' },
-    { title: '', value: 'edit' }
+    { title: 'Stock Quantity', value: 'stockQuantity', align:'end' },
+    { title: '', value: 'edit', align:'end' }
   ];
 
   
@@ -20,7 +20,7 @@ onMounted(() => {
 })
 
 function clickForm(id){
-  return router.push(`/form_material/${id}`)
+  return router.push(`/materials/form_material/${id}`)
 
 }
 
@@ -64,7 +64,12 @@ function clickForm(id){
               hide-default-footer>
 
             <template v-slot:item.edit="{ item }">
-              <v-icon icon="mdi-pencil-outline"size="small"  color="grey-darken-2" @click="clickForm(item.id)"></v-icon>
+              <v-icon icon="mdi-pencil-outline"size="x-small"  
+              color="grey-darken-2" @click="clickForm(item.id)"
+              v-tooltip="'Editar'"
+              >
+              
+            </v-icon>
             </template>
           </v-data-table>
 

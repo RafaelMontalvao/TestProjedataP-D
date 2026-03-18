@@ -17,13 +17,13 @@
       
       <slot name="actions"></slot>
     </v-toolbar>
- <v-container fluid class="pa-6"  style="height:100%; overflow-y:auto;">
+ <v-container fluid class="pa-6"  style="height:90dvh; overflow-y:auto;">
 
 
     <slot class="flex-grow-1"></slot>
 
 
-    <v-footer v-if="$slots.footer" app color="white"  class="pa-4">
+    <v-footer v-if="$slots.footer"  color="white"  class="pa-4">
        <slot name="footer"></slot>
     </v-footer>
    

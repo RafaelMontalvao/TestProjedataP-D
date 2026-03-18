@@ -9,10 +9,10 @@ const items = [
     title : 'Dashboard',
     name :'dashboard'
     },
-    // {
-    // title : 'Products',
-    // name : 'products'
-    // },
+     {
+     title : 'Products',
+     name : 'products'
+     },
     {
      title: 'Materials',
     name: 'materials'

@@ -69,6 +69,12 @@ export const useProductsStore = defineStore('products', () => {
   }
 }
 
+ const existProduct = (name, id = null) => {return products.value.some(e => 
+    e.name?.toLowerCase() === name.toLowerCase() &&
+    e.id !== id
+  )
+}
+
 
 
 
@@ -80,6 +86,7 @@ export const useProductsStore = defineStore('products', () => {
     fetchProducts,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    existProduct
   }
 })

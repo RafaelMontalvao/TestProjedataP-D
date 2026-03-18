@@ -1,6 +1,8 @@
 import DashBoard from '@/pages/DashBoard.vue'
 import FormMaterial from '@/pages/materials/FormMaterial.vue'
 import Materials from '@/pages/materials/Materials.vue'
+import FormProduct from '@/pages/products/FormProduct.vue'
+import Products from '@/pages/products/Products.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -9,8 +11,8 @@ const router = createRouter({
     {
       path: '/',
       component: () => import('@/layouts/DefaultLayout.vue'),
-      children:[
-       {
+      children: [
+        {
           path: '',
           redirect: 'dashboard',
         },
@@ -19,22 +21,43 @@ const router = createRouter({
           name: 'dashboard',
           component: DashBoard,
         },
-         {
+        
+        // --- SEÇÃO DE MATERIAIS ---
+        {
           path: 'materials',
-          name: 'materials',
-          component: Materials,
-        },
-          {
-          path: 'form_material/:id',
-          name: 'formmaterials',
-          component: FormMaterial,
+          children: [
+            {
+              path: '', // URL: /materials
+              name: 'materials',
+              component: Materials,
+            },
+            {
+              path: 'form_material/:id', // URL: /materials/form_material/1
+              name: 'formmaterials',
+              component: FormMaterial,
+            },
+          ]
         },
 
-
-       
+        // --- SEÇÃO DE PRODUTOS ---
+        {
+          path: 'products',
+          children: [
+            {
+              path: '', // URL: /products
+              name: 'products',
+              component: Products,
+            },
+            {
+              path: 'form_product/:id', // URL: /products/form_product/1
+              name: 'formProduct',
+              component: FormProduct,
+            }
+          ]
+        }
       ]
-    }],
-
+    }
+  ]
 })
 
 export default router
