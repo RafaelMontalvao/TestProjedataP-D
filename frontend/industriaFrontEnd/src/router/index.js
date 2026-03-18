@@ -1,4 +1,4 @@
-import HomePage from '@/pages/HomePage.vue'
+import DashBoard from '@/pages/DashBoard.vue'
 import FormMaterial from '@/pages/materials/FormMaterial.vue'
 import Materials from '@/pages/materials/Materials.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -10,10 +10,14 @@ const router = createRouter({
       path: '/',
       component: () => import('@/layouts/DefaultLayout.vue'),
       children:[
+       {
+          path: '',
+          redirect: 'dashboard',
+        },
         {
-          path:'',
+          path: 'dashboard',
           name: 'dashboard',
-          component: HomePage,
+          component: DashBoard,
         },
          {
           path: 'materials',

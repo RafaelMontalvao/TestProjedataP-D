@@ -5,7 +5,7 @@ import ContainerDefault from '@/components/ContainerDefault.vue';
 
 <template>
 
-     <container-default title="Dashboard" show-toolbar >
+     <container-default  >
     DashBoard
     </container-default>
 
