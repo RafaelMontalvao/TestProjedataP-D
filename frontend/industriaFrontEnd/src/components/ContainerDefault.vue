@@ -3,7 +3,7 @@
 <template>
   <v-toolbar 
       v-if="showToolbar" 
-      color="blue-grey-lighten-2" 
+      color="green-lighten-3" 
       density="compact"
       elevation="1"
       class="mb-4 "

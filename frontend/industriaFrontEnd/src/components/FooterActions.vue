@@ -18,12 +18,12 @@
         </script>
 
     <template>
-        <v-footer class="pa-4 bg-grey-lighten-2" height="auto" >
-            <v-toolbar density="comfortable" width="100%"  class="bg-transparent pr-0">
-            <v-btn color="error" variant="tonal" density="comfortable"   v-if="showDelete"  @click="$emit('excluir')">Excluir</v-btn>
+        <v-footer  height="auto" >
+            <v-toolbar density="comfortable" width="100%"  class=" bg-transparent pr-0">
+            <v-btn color="error" variant="elevated" size="large" density="comfortable" rounded="xl"  v-if="showDelete"  @click="$emit('excluir')">Excluir</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="grey" variant="tonal"  density="comfortable" @click="$emit('cancelar')">Cancelar</v-btn>
-            <v-btn color="success" class="ml-2" density="comfortable" variant="tonal"  @click="$emit('salvar')">Salvar</v-btn>
+            <v-btn color="grey" variant="elevated" size="large" density="comfortable"rounded="xl" @click="$emit('cancelar')">Cancelar</v-btn>
+            <v-btn color="success" class="ml-2" size="large" density="comfortable"rounded="xl"variant="elevated"  @click="$emit('salvar')">Salvar</v-btn>
         </v-toolbar>
 
 

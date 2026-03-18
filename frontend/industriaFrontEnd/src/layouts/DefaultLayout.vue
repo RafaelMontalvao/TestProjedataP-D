@@ -22,7 +22,7 @@ const items = [
 <!-- :to="{name:item.name}" -->
 <template>
     <v-layout>
-        <v-app-bar color="blue-grey-lighten-2"elevation="1">
+        <v-app-bar color="green-lighten-3"elevation="1">
             <v-app-bar-nav-icon @click.stop="drawer = !drawer">
             </v-app-bar-nav-icon>
             <v-toolbar-title class="text-h4">

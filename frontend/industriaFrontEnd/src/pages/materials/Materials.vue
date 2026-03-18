@@ -42,8 +42,10 @@ function clickForm(id){
         <v-btn    
            @click="clickForm(0)"
           size="small" 
-          color="primary" 
+          color="green-lighten-3" 
           class="float-right" 
+          variant="elevated"
+          rounded="xl"
           prepend-icon="mdi-plus"
           
         >New Material
@@ -62,7 +64,7 @@ function clickForm(id){
               hide-default-footer>
 
             <template v-slot:item.edit="{ item }">
-              <v-icon icon="mdi-pencil-outline"size="small"  color="secondary" @click="clickForm(item.id)"></v-icon>
+              <v-icon icon="mdi-pencil-outline"size="small"  color="grey-darken-2" @click="clickForm(item.id)"></v-icon>
             </template>
           </v-data-table>
 
