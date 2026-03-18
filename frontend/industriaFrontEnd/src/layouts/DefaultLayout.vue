@@ -42,7 +42,7 @@ const items = [
             </v-list>
         </v-navigation-drawer>
 
-        <v-main style="height: 100dvh;">
+        <v-main style="height: 90dvh;">
             <router-view/>
         </v-main>
     </v-layout>

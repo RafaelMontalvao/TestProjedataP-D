@@ -73,11 +73,15 @@ const updateMaterial = async (id, material) => {
 
   
 
-  const existMaterial = (name, id = null) => {return materials.value.some(e => 
-    e.name?.toLowerCase() === name.toLowerCase() &&
-    e.id !== id
-  )
-}
+  const existMaterial = (name, currentId) => {
+  // Verificamos se a lista existe para não quebrar o .some()
+  if (!materials.value) return false;
+
+  return materials.value.some(p => 
+    (p.name || '').toLowerCase() === (name || '').toLowerCase() && 
+    Number(p.id) !== Number(currentId)
+  );
+};
 
   return {
     isLoading,

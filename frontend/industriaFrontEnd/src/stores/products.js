@@ -69,11 +69,15 @@ export const useProductsStore = defineStore('products', () => {
   }
 }
 
- const existProduct = (name, id = null) => {return products.value.some(e => 
-    e.name?.toLowerCase() === name.toLowerCase() &&
-    e.id !== id
-  )
-}
+ const existProduct = (name, currentId) => {
+  // Verificamos se a lista existe para não quebrar o .some()
+  if (!products.value) return false;
+
+  return products.value.some(p => 
+    (p.name || '').toLowerCase() === (name || '').toLowerCase() && 
+    Number(p.id) !== Number(currentId)
+  );
+};
 
 
 

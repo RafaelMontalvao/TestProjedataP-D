@@ -26,6 +26,13 @@ export function useNotification (){
         show.value  = true
 
     }
+
+    const warn = (msg, duration =5000) => {
+        message.value = msg
+        color.value = 'warning'
+        timeout.value = duration
+        show.value = true
+    }
     // Função para chamar o Dialog de qualquer lugar
     const confirm = (title, msg) => {
         dialogTitle.value = title
@@ -46,6 +53,7 @@ export function useNotification (){
     return {
         success,
         error,
+        warn,
         confirm,
         handleConfirm,
         show,

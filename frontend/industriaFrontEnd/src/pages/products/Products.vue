@@ -71,11 +71,11 @@ function clickForm(id){
               :items="productStore.products"
               item-key="name"
               :disable-sort="true"
-             
+              :items-per-page="-1"
               hide-default-footer>
 
             <template v-slot:item.edit="{ item }">
-              <v-icon icon="mdi-pencil-outline"size="small"  color="secondary" @click="clickForm(item.id)"></v-icon>
+              <v-icon icon="mdi-pencil-outline"size="x-small"  color="grey-darken-2" @click="clickForm(item.id)" v-tooltip="'Editar'"></v-icon>
             </template>
 
                <template v-slot:item.price="{ item }">
