@@ -6,6 +6,7 @@ export const useProductsStore = defineStore('products', () => {
 
   const api = useApi() 
   const products = ref([])
+  const producibles = ref([])
   const isLoading = ref(false)
   const error = ref(null)
 
@@ -54,8 +55,8 @@ export const useProductsStore = defineStore('products', () => {
     const getBestProducible = async () => {
     isLoading.value = true
     try {
-      const { data } = await api.get('/available')
-      products.value = data
+      const { data } = await api.get('/products/available')
+      producibles.value = data
     } finally {
       isLoading.value = false
     }
@@ -94,6 +95,7 @@ export const useProductsStore = defineStore('products', () => {
 
   return {
     products,
+    producibles,
     isLoading,
     getProductById,
     error,
@@ -101,6 +103,7 @@ export const useProductsStore = defineStore('products', () => {
     createProduct,
     updateProduct,
     deleteProduct,
-    existProduct
+    existProduct,
+    getBestProducible
   }
 })
