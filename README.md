@@ -138,7 +138,9 @@ HTTP GET → http://localhost:8080/raw_material/get
 _______________________________________
 ## Delete Material
 HTTP DELETE → http://localhost:8080/raw_material/{id}
-!Para deletar um material ele nao pode estar associado a algum produto.
+
+Para deletar um material ele nao pode estar associado a algum produto.
+
 No Reponse -  204 No content.
 _____________________________
 ## Cadastro de Produtos
@@ -240,7 +242,7 @@ Response:
 ```
 _________________________________________________________________________________________________
 
-##Associação de Materiais ao Produto
+## Associação de Materiais ao Produto
 #Define quais matérias-primas e em que quantidade são necessárias para fabricar o produto.
 
 HTTP POST → http://localhost:8080/product_material/{productId}/materials
