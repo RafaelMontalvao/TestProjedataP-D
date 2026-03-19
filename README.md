@@ -74,13 +74,15 @@ _____________________________________________________________________________
 
 HTTP POST → http://localhost:8080/raw_material/create
 
-Request: ```json
+Request: 
+```json
 {
 "name": "Zíper Metálico",
 "stockQuantity": 200.00
 }
 ```
-Response: ```json
+Response: 
+```json
 {
 "id": 2,
 "name": "Zíper Metálico",
@@ -122,6 +124,23 @@ Response:
 ```
 ____________________________________________________
 
+##Consultar todos materiais
+http://localhost:8080/raw_material/get
+```json
+[
+{
+"id": 2,
+"name": "Zíper Reforçado",
+"stockQuantity": 150.00
+}
+]
+```
+_______________________________________
+##Delete Material
+http://localhost:8080/raw_material/{id}
+!Para deletar um material ele nao pode estar associado a algum produto.
+No Reponse 204 No content.
+_____________________________
 ##Cadastro de Produtos
 
 HTTP POST → http://localhost:8080/products/create
