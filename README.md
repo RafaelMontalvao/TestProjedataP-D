@@ -70,8 +70,7 @@ Para validar a lógica do cálculo de produção e garantir que o sistema priori
 ```
 
 _____________________________________________________________________________
-Cadastro de Matéria-Prima
-Rota responsável por registrar um novo insumo no sistema.
+##Cadastro de Material
 
 HTTP POST → http://localhost:8080/raw_material/create
 
@@ -80,13 +79,101 @@ Request: ```json
 "name": "Zíper Metálico",
 "stockQuantity": 200.00
 }
-
+```
 Response: ```json
 {
 "id": 2,
 "name": "Zíper Metálico",
 "stockQuantity": 200.00
 }
+```
+_____________________________________________
+##Edição de Material
+
+HTTP PUT → http://localhost:8080/raw_material/edit/{id}
+
+Request: 
+```json
+ {
+ "name": "Zíper Reforçado",
+ "stockQuantity": 150.00
+ }
+```
+
+Respose:
+```json
+{
+"id": 2,
+"name": "Zíper Reforçado",
+"stockQuantity": 150.00
+}
+```
+______________________________________________________
+##Consultar Material por id
+HTTP GET → http://localhost:8080/raw_material/get/{id}
+
+Response: 
+```json
+{
+"id": 2,
+"name": "Zíper Reforçado",
+"stockQuantity": 150.00
+}
+```
+____________________________________________________
+
+##Cadastro de Produtos
+
+HTTP POST → http://localhost:8080/products/create
+
+Request: 
+```json
+{
+"name": "Camiseta Polo",
+"code": "POLO-01",
+"price": 89.90
+}
+```
+
+Response:
+```json
+{
+"id": 1,
+"name": "Camiseta Polo",
+"code": "POLO-01",
+"price": 89.90,
+"materials": []
+}
+```
+
+
+##Associação de Materiais ao Produto
+#Define quais matérias-primas e em que quantidade são necessárias para fabricar o produto.
+
+HTTP POST → http://localhost:8080/product_material/{productId}/materials
+
+Request: 
+```json
+[
+{
+"rawMaterialId": 1,
+"quantityNeeded": 1.5
+}
+]
+```
+
+Response: 
+```json
+[
+{
+"id": 10,
+"productId": 1,
+"rawMaterialId": 1,
+"rawMaterialName": "Tecido Algodão",
+"quantityNeeded": 1.5
+}
+]
+```
 
 
 
