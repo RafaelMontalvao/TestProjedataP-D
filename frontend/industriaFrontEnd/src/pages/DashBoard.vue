@@ -118,8 +118,9 @@
         
 
                 <v-row >
-                <v-col  cols="12">
-                <apexchart v-if="!productStore.isLoading"
+                <v-col v-if="!productStore.isLoading" cols="12">
+                <apexchart 
+                 v-if="series?.[0]?.data?.length"
                     type="bar" 
                     height="350" 
                     :options="chartOptions" 
@@ -234,7 +235,7 @@ watch(() => productStore.producibles, (newItems) => {
       data: sortedData.value.map(i => i.totalProductionValue)
     }];
   }
-}, { deep: true, immediate: true });
+});
 
 
 
