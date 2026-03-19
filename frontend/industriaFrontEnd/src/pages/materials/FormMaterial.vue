@@ -171,9 +171,10 @@ async function clickDelete() {
                 isLoading.value = true
                 await store.deleteMaterial(materialId.value)
                 notification.success('Material Deleted')
-                router.back()
+                goBack()
                 } catch (err) {
-                notification.error('Failed to delete')
+                const backendMessage = err.response?.data?.erros?.[0]
+                notification.error(backendMessage || 'Failed to delete material')
                 } finally {
                 isLoading.value = false
                 }

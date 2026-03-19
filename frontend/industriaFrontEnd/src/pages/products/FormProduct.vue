@@ -380,7 +380,7 @@ async function clickSave(){
 async function clickDelete(){
 
    const confirmed = await notification.confirm(
-            'Delete Material', 
+            'Delete Product', 
             `Are you sure you want to delete this prodocut: ${form.value.name}?`
         )
         if (confirmed) {
@@ -390,7 +390,7 @@ async function clickDelete(){
                 await storeAsccociation.deleteAssociationbyId(productId.value)
 
                 await store.deleteProduct(productId.value)
-                notification.success('Material Deleted')
+                notification.success('Product Deleted')
                 goBack()
                 } catch (err) {
                 notification.error('Failed to delete')
