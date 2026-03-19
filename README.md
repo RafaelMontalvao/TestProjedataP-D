@@ -69,6 +69,25 @@ Para validar a lógica do cálculo de produção e garantir que o sistema priori
   mvn test
 ```
 
+_____________________________________________________________________________
+Cadastro de Matéria-Prima
+Rota responsável por registrar um novo insumo no sistema.
+
+HTTP POST → http://localhost:8080/raw_material/create
+
+Request: ```json
+{
+"name": "Zíper Metálico",
+"stockQuantity": 200.00
+}
+
+Response: ```json
+{
+"id": 2,
+"name": "Zíper Metálico",
+"stockQuantity": 200.00
+}
+
 
 
 
