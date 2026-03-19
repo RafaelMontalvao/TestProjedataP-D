@@ -33,7 +33,7 @@ export const useAssociationStore = defineStore('association',()=>{
 
     const deleteAssociation = async(id) =>{
 
-        isLoading = true
+        isLoading.value = true
         try{
             await api.delete(`/product_material/delete/${id}`)
         }
