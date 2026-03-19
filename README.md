@@ -225,7 +225,7 @@ No Reponse - 204 No content.
 ________________________________________________________________
 
 ## Consultar melhores produtos para fabricar
--  Este é o endpoint da Lógica do Desafio 
+Este é o endpoint da Lógica do Desafio 
 HTTP GET → http://localhost:8080/products/available
 
 Response:
