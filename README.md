@@ -13,7 +13,7 @@ Priorização: Os produtos são ordenados do maior para o menor valor gerado por
 
 Alocação Linear: O algoritmo percorre a lista e abate o estoque real (em memória), garantindo que os produtos mais lucrativos sejam fabricados primeiro.
 
-🛠️ Tecnologias Utilizadas
+Tecnologias Utilizadas
 Back-end:
 
 Java 17 / Spring Boot 3
@@ -62,7 +62,7 @@ A API estará disponível em http://localhost:8080
 ```
 Front End disponivel em  http://localhost:5173
 
-#Testes Unitários
+# Testes Unitários
 Para validar a lógica do cálculo de produção e garantir que o sistema prioriza o lucro corretamente:
  ```bash
   cd backend
@@ -70,7 +70,7 @@ Para validar a lógica do cálculo de produção e garantir que o sistema priori
 ```
 
 _____________________________________________________________________________
-##Cadastro de Material
+## Cadastro de Material
 
 HTTP POST → http://localhost:8080/raw_material/create
 
@@ -90,7 +90,7 @@ Response:
 }
 ```
 _____________________________________________
-##Edição de Material
+## Edição de Material
 
 HTTP PUT → http://localhost:8080/raw_material/edit/{id}
 
@@ -111,7 +111,7 @@ Respose:
 }
 ```
 ______________________________________________________
-##Consultar Material por id
+## Consultar Material por id
 HTTP GET → http://localhost:8080/raw_material/get/{id}
 
 Response: 
@@ -124,8 +124,8 @@ Response:
 ```
 ____________________________________________________
 
-##Consultar todos materiais
-http://localhost:8080/raw_material/get
+## Consultar todos materiais
+HTTP GET → http://localhost:8080/raw_material/get
 ```json
 [
 {
@@ -136,12 +136,12 @@ http://localhost:8080/raw_material/get
 ]
 ```
 _______________________________________
-##Delete Material
-http://localhost:8080/raw_material/{id}
+## Delete Material
+HTTP DELETE → http://localhost:8080/raw_material/{id}
 !Para deletar um material ele nao pode estar associado a algum produto.
-No Reponse 204 No content.
+No Reponse -  204 No content.
 _____________________________
-##Cadastro de Produtos
+## Cadastro de Produtos
 
 HTTP POST → http://localhost:8080/products/create
 
@@ -165,6 +165,80 @@ Response:
 }
 ```
 
+_________________________________________________
+## Edição de Produto
+HTTP PUT → http://localhost:8080/products/edit/{id}
+
+Request:
+```json
+{
+"price": 99.90
+}
+```
+Response:
+```json
+{
+"id": 1,
+"name": "Camiseta Polo",
+"code": "POLO-01",
+"price": 99.90
+"materials": []
+}
+```
+
+__________________________________________
+## Consultar Produto por id
+HTTP GET → http://localhost:8080/products/get/{id}
+
+Response:
+```json
+{
+"id": 1,
+"name": "Camiseta Polo",
+"code": "POLO-01",
+"price": 99.90
+"materials": []
+}
+```
+_______________________________________________________
+### Consultar todos Produtos
+HTTP GET → http://localhost:8080/products/get/{id}
+Response:
+```json
+[{
+"id": 1,
+"name": "Camiseta Polo",
+"code": "POLO-01",
+"price": 99.90
+"materials": []
+}]
+```
+
+__________________________________________________________________
+## Delete Produto
+HTTP DELETE → http://localhost:8080/products/delete/{id}
+
+No Reponse - 204 No content.
+
+________________________________________________________________
+
+## Consultar melhores produtos para fabricar
+# Este é o endpoint da Lógica do Desafio 
+HTTP GET → http://localhost:8080/products/available
+
+Response:
+```json
+[
+  {
+    "productId": 1,
+    "productName": "Camiseta Dry-Fit",
+    "productcode": "CONF-001",
+    "producibleQuantity": 50.00,
+    "totalProductionValue": 2500.00
+  }
+]
+```
+_________________________________________________________________________________________________
 
 ##Associação de Materiais ao Produto
 #Define quais matérias-primas e em que quantidade são necessárias para fabricar o produto.
@@ -193,6 +267,13 @@ Response:
 }
 ]
 ```
+
+________________________________________
+
+## DELETE ASSOCIAÇÂO POR ID DE PRODUTO
+HTTP DELETE → http://localhost:8080/product_material/{productId}/delete
+No Reponse - 204 No content.
+
 
 
 
