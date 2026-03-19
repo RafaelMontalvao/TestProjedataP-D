@@ -60,6 +60,7 @@ A API estará disponível em http://localhost:8080
   npm install
   npm run dev
 ```
+Front End disponivel em  http://localhost:5173
 
 #Testes Unitários
 Para validar a lógica do cálculo de produção e garantir que o sistema prioriza o lucro corretamente:
