@@ -9,6 +9,7 @@ import test.Projedata.Industria.dto.response.ProductAvailabilityDto;
 import test.Projedata.Industria.exception.*;
 import test.Projedata.Industria.model.Product;
 import test.Projedata.Industria.model.ProductMaterial;
+import org.springframework.transaction.annotation.Transactional;
 import test.Projedata.Industria.model.RawMaterial;
 import test.Projedata.Industria.repositories.ProductMaterialRepository;
 import test.Projedata.Industria.repositories.ProductRepository;
@@ -30,7 +31,7 @@ public class ProductService {
 
 
 
-
+    @Transactional
     public Product create(Product product) {
         if(productRepository.existsByCode(product.getCode()) || productRepository.existsByName(product.getName()))
             throw new ProductAlredyExistException();
@@ -51,16 +52,30 @@ public class ProductService {
         return product;
 
     }
-
-
-
-
+    @Transactional
     public Product updateProduct( Long  id , ProductUpdateRequestDto productRequestDto) {
 
         Optional<Product> product = productRepository.findById(id);
+
         if(product.isEmpty())
             throw new ProductNotFoundException();
         Product productBd =  product.get();
+
+        if (productRequestDto.getCode() != null && !productRequestDto.getCode().equals(productBd.getCode())) {
+            if (productRepository.existsByCode(productRequestDto.getCode())) {
+                throw new ProductAlredyExistException();
+            }
+            productBd.setCode(productRequestDto.getCode());
+        }
+
+
+        if (productRequestDto.getName() != null && !productRequestDto.getName().equals(productBd.getName())) {
+            if (productRepository.existsByName(productRequestDto.getName())) {
+                throw new ProductAlredyExistException();
+            }
+            productBd.setName(productRequestDto.getName());
+        }
+
 
         if(productRequestDto.getCode() != null && !productRequestDto.getCode().isBlank()) {
             productBd.setCode(productRequestDto.getCode());
@@ -76,6 +91,7 @@ public class ProductService {
     }
 
 
+    @Transactional
     public void delete (Long id){
         boolean existsProduct = productRepository.existsById(id);
         boolean existsAssociation =  productMaterialRepository.existsByProductId(id);
@@ -94,8 +110,7 @@ public class ProductService {
         List<Product> products = productRepository.findAll();
         Map<Long, BigDecimal> stock = createFakeStock();
 
-        // 1. Ordenação por Rentabilidade (Densidade de Valor)
-        // Filtramos produtos sem materiais e ordenamos do mais rentável para o menos
+
         List<Product> prioritizedProducts = products.stream()
                 .filter(p -> p.getMaterial() != null && !p.getMaterial().isEmpty())
                 .sorted((p1, p2) -> calculateValueDensity(p2).compareTo(calculateValueDensity(p1)))
@@ -103,15 +118,15 @@ public class ProductService {
 
         List<ProductAvailabilityDto> result = new ArrayList<>();
 
-        // 2. Loop Linear - Processa cada produto uma única vez
+
         for (Product product : prioritizedProducts) {
             BigDecimal qty = calculateMaxQuantity(product, stock);
 
             if (qty.compareTo(BigDecimal.ZERO) > 0) {
-                // Usa o seu mapper para converter para DTO
+
                 result.add(productAvailabilityMapper.toDto(product, qty));
 
-                // Abate o que foi "usado" do estoque local para o próximo produto
+
                 consume(product, qty, stock);
             }
         }
@@ -120,9 +135,8 @@ public class ProductService {
     }
 
     private BigDecimal calculateValueDensity(Product p) {
-        // Soma quanto de material TOTAL esse produto gasta
         BigDecimal totalNeeded = p.getMaterial().stream()
-                .map(m -> m.getRequiredQuantity()) // Nome conforme seu código anterior
+                .map(m -> m.getRequiredQuantity())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         if (totalNeeded.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
@@ -135,14 +149,14 @@ public class ProductService {
         BigDecimal minPossible = null;
 
         for (ProductMaterial m : product.getMaterial()) {
-            // Pega o ID do material bruto
+
             Long materialId = m.getRawMaterial().getId();
             BigDecimal available = stock.getOrDefault(materialId, BigDecimal.ZERO);
             BigDecimal required = m.getRequiredQuantity();
 
             if (required.compareTo(BigDecimal.ZERO) <= 0) continue;
 
-            // Divisão inteira: disponível / necessário
+
             BigDecimal possible = available.divide(required, 0, RoundingMode.FLOOR);
 
             if (minPossible == null || possible.compareTo(minPossible) < 0) {

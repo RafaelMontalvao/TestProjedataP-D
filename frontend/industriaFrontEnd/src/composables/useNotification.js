@@ -7,7 +7,7 @@ const timeout = ref(5000)
 const showDialog = ref(false)
 const dialogTitle = ref('')
 const dialogMessage = ref('')
-let resolvePromise = null // Aqui guardamos a "promessa" de resposta
+let resolvePromise = null 
 
 export function useNotification (){
 
@@ -33,13 +33,13 @@ export function useNotification (){
         timeout.value = duration
         show.value = true
     }
-    // Função para chamar o Dialog de qualquer lugar
+   
     const confirm = (title, msg) => {
         dialogTitle.value = title
         dialogMessage.value = msg
         showDialog.value = true
         
-        // Criamos uma promessa que só "resolve" quando o usuário clica nos botões
+       
         return new Promise((resolve) => {
             resolvePromise = resolve
         })
@@ -47,7 +47,7 @@ export function useNotification (){
 
     const handleConfirm = (value) => {
         showDialog.value = false
-        if (resolvePromise) resolvePromise(value) // Retorna true ou false
+        if (resolvePromise) resolvePromise(value) 
     }
 
     return {

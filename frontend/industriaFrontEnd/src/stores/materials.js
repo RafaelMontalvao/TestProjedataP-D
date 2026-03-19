@@ -74,7 +74,7 @@ const updateMaterial = async (id, material) => {
   
 
   const existMaterial = (name, currentId) => {
-  // Verificamos se a lista existe para não quebrar o .some()
+  
   if (!materials.value) return false;
 
   return materials.value.some(p => 

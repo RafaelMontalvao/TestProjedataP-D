@@ -37,22 +37,22 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const goBack = () => {
-  // Verifica se existe histórico no navegador
+ 
   if (window.history.state.back) {
     router.back()
   } else {
     console.log("click")
-    // Se não tiver para onde voltar, manda para a Dashboard
+   
     router.push({ name: 'dashboard' }) 
   }
 }
 defineProps({
-  // Título que será exibido
+
   title: {
     type: String,
     default: 'Página'
   },
-  // Controle de visibilidade
+
   showToolbar: {
     type: Boolean,
     default: false

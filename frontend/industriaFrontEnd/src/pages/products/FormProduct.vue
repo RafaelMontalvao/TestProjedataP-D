@@ -1,8 +1,4 @@
 <template>
-
-
-
-    
     <container-default   :title="productId >0 ?'Edit Product' : 'New Product'" show-toolbar >
       <v-form   ref="formProduct" validate-on="blur" @submit.prevent>
         <v-row class="pt-0">
@@ -70,59 +66,45 @@
            
           <v-row v-for="(item,index) in form.materials" :key="index "  class="px-4 mt-3" >
              
-          <v-col cols="6">
-            <v-autocomplete
-              v-model="item.rawMaterialId"
-              :items="getAvailableMaterials(index)" 
-              item-title="name"
-              item-value="id"
-              :rules="[rules.required]"
-              hide-details="auto"
-              label="Select Material"
-              density="compact"
-              variant="outlined"
-              
-            ></v-autocomplete>
-          </v-col>  
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="item.rawMaterialId"
+                :items="getAvailableMaterials(index)" 
+                item-title="name"
+                item-value="id"
+                :rules="[rules.required]"
+                hide-details="auto"
+                label="Select Material"
+                density="compact"
+                variant="outlined">
+              </v-autocomplete>
+            </v-col>  
 
-          <v-col cols="6">
-            <v-text-field
-              v-model="item.quantityNeeded"
-              label="Quantity"
-              type="number"
-              :rules="[rules.required]"
-              :min="0"
-              :precision="2"
-              :step="0.01"
-              hide-details="auto"
-              density="compact"
-              variant="outlined"
-              
-              
-            >
-            <template #append>
-              <v-icon icon="mdi-delete-outline" size="x-large" @click="form.materials.splice(index, 1)"></v-icon>
+            <v-col cols="6">
+              <v-text-field
+                v-model="item.quantityNeeded"
+                label="Quantity"
+                type="number"
+                :rules="[rules.required]"
+                :min="0"
+                :precision="2"
+                :step="0.01"
+                hide-details="auto"
+                density="compact"
+                variant="outlined"
+              >
+              <template #append>
+                <v-icon icon="mdi-delete-outline" size="x-large" @click="form.materials.splice(index, 1)"></v-icon>
 
 
-            </template>
-          </v-text-field>
-          </v-col> 
+              </template>
+              </v-text-field>
+            </v-col> 
 
-           <!-- <v-col cols="2"  class="d-flex aling-start pa-0">
-            <v-icon 
-              
-              color="error" 
-              variant="text" 
-              size="large"
-              @click="form.materials.splice(index, 1)"
-            ></v-icon>
-          </v-col> -->
-         
-
-        </v-row>
+          </v-row>
         </v-card>
 
-          </v-col>
+        </v-col>
             
         </v-row>
       </v-form>
@@ -253,10 +235,10 @@ onMounted(async () => {
 })
 
 const onPriceInput = (e) => {
-  // pega só números
+ 
   let numbers = e.target.value.replace(/\D/g, '')
 
-  // limita até 8 dígitos → 99999999 (999.999,99)
+ 
   numbers = numbers.slice(0, 8)
 
   const value = Number(numbers) / 100
@@ -277,21 +259,21 @@ const parseMoneyToBigDecimal = (value) => {
 }
 
 const getAvailableMaterials = (currentIndex) => {
-  // 1. Pega todos os materiais do store
+  
   const allMaterials = storeMaterials.materials || [];
 
-  // 2. Proteção: se o formulário ou a lista não existem, retorna tudo
+ 
   if (!form.value || !form.value.materials) return allMaterials;
 
-  // 3. Pega os IDs que já foram selecionados nas OUTRAS linhas
+  
   const usedInOtherRows = form.value.materials
     .filter((item, index) => {
-      // Filtra: não pode ser a linha atual E precisa ter um ID selecionado
+     
       return index !== currentIndex && item.rawMaterialId;
     })
-    .map(item => Number(item.rawMaterialId)); // Extrai apenas o ID numérico
+    .map(item => Number(item.rawMaterialId)); 
 
-  // 4. Retorna apenas os materiais que NÃO estão na lista de usados
+
   return allMaterials.filter(mat => !usedInOtherRows.includes(Number(mat.id)));
 }
 
@@ -312,10 +294,10 @@ const addMaterialRow = () => {
    return; 
    }
 
-  // 3. Se passou na validação, adiciona a linha
+ 
   form.value.materials.push({
     rawMaterialId: null,
-    quantityNeeded: 0, // Dica: mude de 0 para 1 para facilitar pro usuário
+    quantityNeeded: 0, 
   });
 };
 
@@ -323,10 +305,10 @@ const goBack = () => {
   console.log("Tentando voltar...");
   console.log("Histórico do Navegador (Length):", window.history.length);
   
-  // O back() retorna uma Promise no Vue Router 4
+  
   router.back();
   
-  // Se após 100ms ele não saiu da página, algo bloqueou
+ 
   setTimeout(() => {
     if (route.name === 'formProduct') {
       console.warn("router.back() falhou. Forçando push...");
@@ -381,15 +363,15 @@ async function clickSave(){
     notification.success(productId.value > 0 ?  "Product Uptaded " : "Product Created")
     setTimeout(()=> {goBack()},1000)
   }catch (error) {
-    // Tratamento de erro detalhado com a sua lógica de notificações
+    
     const msg =
       error?.response?.data?.erros?.[0] ||
       error?.response?.data?.message ||
       error?.message ||
-      'Erro ao salvar produto';
+      'Error save product';
 
     notification.error(msg);
-    console.error("Erro no salvamento:", error);
+    console.error("Error save product:", error);
   } finally {
     isLoading.value = false;
   }

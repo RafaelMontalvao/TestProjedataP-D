@@ -22,11 +22,11 @@
 
                     <v-text-field
                     label="Stock Quantity"
-                    v-model="form.stockQuantity"
+                    v-model.number="form.stockQuantity"
                     variant="outlined"
                     hide-details="auto"
                     type="number"
-                    :min="0.00"
+                    :min="0"
                     :precision="2"
                     :step="0.01"
                     density="compact">
@@ -68,7 +68,7 @@ const formMAterial = ref(null);
 const form = ref({
     id:null,
     name:'',
-    stockQuantity: 0
+    stockQuantity: null
 })
 
 const rules = {
@@ -83,17 +83,11 @@ const rules = {
 
 
 const goBack = () => {
-  console.log("Tentando voltar...");
-  console.log("Histórico do Navegador (Length):", window.history.length);
-  
-  // O back() retorna uma Promise no Vue Router 4
-  router.back();
-  
-  // Se após 100ms ele não saiu da página, algo bloqueou
+ 
+  router.back(); 
   setTimeout(() => {
-    if (route.name === 'formmaterials') {
-      console.warn("router.back() falhou. Forçando push...");
-      router.push({ name: 'materials' });
+    if (route.name === 'formmaterials') {      
+       router.push({ name: 'materials' });
     }
   }, 100);
 }
@@ -159,19 +153,19 @@ async function clickSave(){
 }
 
 async function clickDelete() {
-         // 1. Validação de associação (igual você fez)
+        
     if (form.value.products?.length > 0) {
             notification.error('Product has association')
             return
         }
 
-        // 2. Chamar o dialog global e ESPERAR a resposta
+       
         const confirmed = await notification.confirm(
             'Delete Material', 
             `Are you sure you want to delete ${form.value.name}?`
         )
 
-        // 3. Se o usuário clicou em OK
+      
         if (confirmed) {
                 try {
                 isLoading.value = true
