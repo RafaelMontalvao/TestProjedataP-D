@@ -3,6 +3,8 @@ package test.Projedata.Industria.dto.response;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class RawMaterialResponseDto {
 
@@ -11,6 +13,6 @@ public class RawMaterialResponseDto {
     private String name;
 
 
-    private Integer stockQuantity;
+    private BigDecimal stockQuantity;
 }
 

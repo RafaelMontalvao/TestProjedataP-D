@@ -19,7 +19,7 @@ const items = [
 }
 ]
 </script>
-<!-- :to="{name:item.name}" -->
+
 <template>
     <v-layout>
         <v-app-bar elevation="1">
